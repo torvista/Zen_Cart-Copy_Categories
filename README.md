@@ -1,5 +1,10 @@
 # Zen Cart - Copy Categories
-November 2022 WORK IN PROGRESS FOR Zen Cart 1.58: DO NOT USE
+
+FOR Zen Cart 1.58
+
+Working!
+
+Todo: deal with multiple languages...
 
 Originally from https://www.zen-cart.com/downloads.php?do=file&id=1549
  
