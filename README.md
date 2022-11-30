@@ -5,4 +5,6 @@ Originally from https://www.zen-cart.com/downloads.php?do=file&id=1549
 
 Original support thread https://www.zen-cart.com/showthread.php?202013-Copy-Categories-1-6
 
-Currently unchanged from the original download: under review.
+This branch is currently unchanged from the download in the Zen Cart Plugins section.
+
+Nov 2022: development is ongoing in branch zc158.
