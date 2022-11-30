@@ -1,11 +1,9 @@
 # Zen Cart - Copy Categories
 
-FOR Zen Cart 1.58
+For Zen Cart 1.58/php 8.1+
 
-Working!
+Nov 2022 Status  
+copy of categories + subcategories:working  
+copy of categories + subcategories + linked products: in progress
 
-Todo: deal with multiple languages...
-
-Originally from https://www.zen-cart.com/downloads.php?do=file&id=1549
- 
-Original support thread https://www.zen-cart.com/showthread.php?202013-Copy-Categories-1-6
+DO NOT TRY THIS ON A PRODUCTION SITE AND BE PREPARED TO USE A DATABASE RESTORE.
