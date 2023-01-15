@@ -1,0 +1,116 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Zen Cart - Copy Categories</title>
+    <style>
+body {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: .8em;
+	line-height: 1.1;
+	width: 90%;
+	margin-top: 1em;
+	margin-right: auto;
+	margin-bottom: 1em;
+	margin-left: auto;
+}
+p {
+	margin: .1em 0 .3em 0;
+}
+h1, h2, h3 {
+	margin: 1.5em 0 .2em 0;
+}
+h1 {
+	font-size: 1.3em;
+}
+h2 {
+	font-size: 1.2em;
+}
+h3 {
+	font-size: 1em;
+}
+.filename {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	font-weight: normal;
+	font-size: 1.2em;
+	line-height: 1.5;
+}
+li {
+	margin-bottom: 0.4em;
+}
+.innerlist {
+	list-style-type: lower-alpha;
+}
+.warning {
+	font-weight: bold;
+	color: #F00;
+}
+.todo {
+	font-weight: bold;
+	font-size: larger;
+	color: red;
+}
+.code {
+	border: 1px solid #666;
+	background-color: #BFD5EA;
+	display: block;
+	padding: 5px;
+	width: auto;
+}
+pre {
+	font-size: 1.3em;
+}
+.img {
+	border: 1px solid #000;
+}
+body, td, th {
+	font-size: 0.8em;
+}
+</style>
+</head>
+
+<body>
+<h1>Zen Cart - Copy Categories - v2.0</h1>
+<p>For Zen Cart 1.58/php 8.0+</p>
+<h2>Features</h2>
+<p>This plugin adds the (missing) core functionality of Copy Category:</p>
+<p><img src="category_actions.gif" width="196" height="124" alt=""/></p>
+<p><img src="copy_categories_infobox.gif" width="486" height="431" alt=""/></p>
+<p>&nbsp;</p>
+<p>It is multi-language and can optionally copy the category metatags and contained products.</p>
+<p>It uses observers so does not require any modifications to core files.</p>
+<h2>Files</h2>
+<p>Only two new files are required, using observers to add the Copy Category Icon and Infobox code.</p>
+<p class="filename">ADMIN_FOLDER\includes\classes\observers\auto.PluginCopyCategories.php</p>
+<p class="filename">ADMIN_FOLDER\\includes\languages\english\plugin_copy_categories.php</p>
+<p>Also included is:</p>
+<p class="filename">ADMIN_FOLDER\category_product_listing.158a php</p>
+<p>This is the development (as of 15/01/2023) version and has modifications to the notifiers used by this plugin.</p>
+<p>You must compare this file to your version and ensure the notifiers referenced below have the same structure:</p>
+<p>'NOTIFY_ADMIN_PROD_LISTING_DEFAULT_ACTION': This was modified subsequent to the release of ZC158.<br>
+  'NOTIFY_ADMIN_PROD_LISTING_DEFAULT_INFOBOX': This was added subsequent to the release of ZC158.</p>
+<p>This file may be deleted subsequently.</p>
+<h2>Installation</h2>
+<ol>
+  <li>Copy the three files into the ADMIN FOLDER of your <strong class="warning">DEVELOPMENT SERVER</strong>.</li>
+  <li>Compare ADMIN_FOLDER\category_product_listing.158a php with yours as detailed above.</li>
+  <li>Check the C copy icon appears in the Actions of the Category Listing:<br>
+    <br>
+    <img src="category_actions.gif" width="196" height="124" alt=""/><br>
+  </li>
+<li>Check the Copy function works as expected...no errors or debug errors. If so, report them in <a href="https://github.com/torvista/Zen_Cart-Copy_Categories/issues" target="_blank">GitHub</a>.</li>
+<li>If all good, delete ADMIN_FOLDER\category_product_listing.158a php.</li>
+<li>Upload the two files to your production server.</li>
+</ol>
+<h2>Problems</h2>
+<p>Please report the exact process of replicating any  bugs/unexpected behaviour in GitHub: <a href="https://github.com/torvista/Zen_Cart-Copy_Categories/issues" target="_blank">https://github.com/torvista/Zen_Cart-Copy_Categories/issues</a></p>
+<h2>Changelog</h2>
+  <p>15/01/2023: v.2.0 torvista
+    - rewritten to use observers.</p>
+  <p>11/11/2012: v1.6 knuckle-101 - original plugin.<a href="https://www.zen-cart.com/downloads.php?do=file&id=1549" target="_blank"> https://www.zen-cart.com/downloads.php?do=file&amp;id=1549</a></p>
+  <p>&nbsp;</p>
+</body>
+</html>
+
+title>Copy Categories</title>

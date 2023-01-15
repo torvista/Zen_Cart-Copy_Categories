@@ -1,10 +1,10 @@
-<?php
+<?php //plugin Copy Categories
 
 declare(strict_types=1);
 /** Plugin Copy Categories
  * https://github.com/torvista/Zen_Cart-Copy_Categories
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version torvista 2022 Nov 29
+ * @version torvista 2023 Jan 15
  */
 if (!defined('IS_ADMIN_FLAG') || IS_ADMIN_FLAG !== true) {
     die('Illegal Access');
@@ -27,8 +27,8 @@ class zcObserverPluginCopyCategories extends base
 
         $this->attach($this, [
                 'NOTIFY_ADMIN_PROD_LISTING_ADD_ICON_CATEGORY', // add the additional Copy icon after action M Move Category
-                'NOTIFY_ADMIN_PROD_LISTING_DEFAULT_ACTION',    // MODIFIED Notifier capture the action-case-options (copy_category, copy_category_confirm) when they fall through to the switch-default action
-                'NOTIFY_ADMIN_PROD_LISTING_DEFAULT_INFOBOX'    // NEW Notifier
+                'NOTIFY_ADMIN_PROD_LISTING_DEFAULT_ACTION',    // capture the action-case-options (copy_category, copy_category_confirm) when they fall through to the switch-default action
+                'NOTIFY_ADMIN_PROD_LISTING_DEFAULT_INFOBOX'    // display infobox for copy categories options
             ]
         );
     }
