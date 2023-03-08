@@ -76,7 +76,7 @@ body, td, th {
 <h2>Features</h2>
 <p>This plugin adds the (missing) core functionality of Copy Category:</p>
 <p><img src="category_actions.gif" width="196" height="124" alt=""/></p>
-<p><img src="copy_categories_infobox.gif" width="486" height="431" alt=""/></p>
+<p><img src="copy_categories_infobox.gif" width="470" height="424" alt="image infoBox"/></p>
 <p>&nbsp;</p>
 <p>It is multi-language and can optionally copy the category metatags and contained products.</p>
 <p>It uses observers so does not require any modifications to core files.</p>
@@ -85,16 +85,16 @@ body, td, th {
 <p class="filename">ADMIN_FOLDER\includes\classes\observers\auto.PluginCopyCategories.php</p>
 <p class="filename">ADMIN_FOLDER\\includes\languages\english\plugin_copy_categories.php</p>
 <p>Also included is:</p>
-<p class="filename">ADMIN_FOLDER\category_product_listing.158a php</p>
-<p>This is the development (as of 15/01/2023) version and has modifications to the notifiers used by this plugin.</p>
-<p>You must compare this file to your version and ensure the notifiers referenced below have the same structure:</p>
+<p class="filename">ADMIN_FOLDER\category_product_listing.ZC158a php</p>
+<p>This is the current development version and has modifications to the notifiers used by this plugin.</p>
+<p>If you are using ZC158 you <strong>must</strong> compare this file to your version and ensure that the notifiers referenced below have exactly the same structure:</p>
 <p>'NOTIFY_ADMIN_PROD_LISTING_DEFAULT_ACTION': This was modified subsequent to the release of ZC158.<br>
   'NOTIFY_ADMIN_PROD_LISTING_DEFAULT_INFOBOX': This was added subsequent to the release of ZC158.</p>
 <p>This file may be deleted subsequently.</p>
 <h2>Installation</h2>
 <ol>
   <li>Copy the three files into the ADMIN FOLDER of your <strong class="warning">DEVELOPMENT SERVER</strong>.</li>
-  <li>Compare ADMIN_FOLDER\category_product_listing.158a php with yours as detailed above.</li>
+  <li>Compare ADMIN_FOLDER\category_product_listing.158a php with yours as detailed above, and merge the relevant notifiers structure.</li>
   <li>Check the C copy icon appears in the Actions of the Category Listing:<br>
     <br>
     <img src="category_actions.gif" width="196" height="124" alt=""/><br>
@@ -106,7 +106,7 @@ body, td, th {
 <h2>Problems</h2>
 <p>Please report the exact process of replicating any  bugs/unexpected behaviour in GitHub: <a href="https://github.com/torvista/Zen_Cart-Copy_Categories/issues" target="_blank">https://github.com/torvista/Zen_Cart-Copy_Categories/issues</a></p>
 <h2>Changelog</h2>
-  <p>15/01/2023: v.2.0 torvista
+  <p>08/03/2023: v.2.0 torvista
     - rewritten to use observers.</p>
   <p>11/11/2012: v1.6 knuckle-101 - original plugin.<a href="https://www.zen-cart.com/downloads.php?do=file&id=1549" target="_blank"> https://www.zen-cart.com/downloads.php?do=file&amp;id=1549</a></p>
   <p>&nbsp;</p>

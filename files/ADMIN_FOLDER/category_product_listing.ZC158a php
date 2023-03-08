@@ -480,26 +480,7 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
             ?>
           </div>
           <div class="col-md-4">
-            <?php echo zen_draw_form('searchForm', FILENAME_CATEGORY_PRODUCT_LISTING, '', 'get', 'class="form-horizontal"'); ?>
-            <?php echo zen_hide_session_id(); ?>
-            <div class="form-group">
-              <?php echo zen_draw_label(HEADING_TITLE_SEARCH_DETAIL, 'search', 'class="col-sm-6 col-md-4 control-label"'); ?>
-              <div class="col-sm-6 col-md-8">
-                <?php echo zen_draw_input_field('search', '', 'autofocus="autofocus" class="form-control" id="search"'); ?>
-              </div>
-            </div>
-            <?php
-            if ($search_result) {
-              ?>
-              <div class="form-group">
-                <div class="col-sm-6 col-md-4 control-label"><?php echo TEXT_INFO_SEARCH_DETAIL_FILTER; ?></div>
-                <div class="col-sm-6 col-md-8">
-                  <strong>"<?php echo zen_output_string_protected($_GET['search']); ?>"</strong>
-                  <a href="<?php echo zen_href_link(FILENAME_CATEGORY_PRODUCT_LISTING); ?>" class="btn btn-default" role="button"><?php echo IMAGE_RESET; ?></a>
-                </div>
-              </div>
-            <?php } ?>
-            <?php echo '</form>'; ?>
+          <?php require DIR_WS_MODULES . 'search_box.php'; ?>
             <?php echo zen_draw_form('goto', FILENAME_CATEGORY_PRODUCT_LISTING, '', 'get', 'class="form-horizontal"'); ?>
             <?php echo zen_hide_session_id(); ?>
             <div class="form-group">
@@ -559,6 +540,7 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
               $keyword_search_fields = [
                 'cd.categories_name',
                 'cd.categories_description',
+                'cd.categories_id',
               ];
               $sql .= zen_build_keyword_where_clause($keyword_search_fields, trim($keywords), true);
           } else {
@@ -1188,6 +1170,10 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
         }
 
         $cPath_back = (zen_not_null($cPath_back)) ? 'cPath=' . $cPath_back . '&' : '';
+
+        $messageSubCategories = CATEGORY_HAS_SUBCATEGORIES;
+        $zco_notifier->notify('NOTIFY_ADMIN_PROD_LISTING_SKIP_ACTIONS', $current_category_id, $zc_skip_products, $zc_skip_categories, $messageSubCategories);
+
         ?>
         <div class="row">
           <div class="col-md-3"><?php echo TEXT_CATEGORIES . '&nbsp;' . $categories_count . '<br>' . TEXT_PRODUCTS . '&nbsp;' . $products_count; ?></div>
@@ -1235,7 +1221,7 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
               ?>
               <?php
             } else {
-              echo CATEGORY_HAS_SUBCATEGORIES;
+              echo $messageSubCategories;
               ?>
               <?php
             } // hide has cats
