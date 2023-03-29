@@ -1,10 +1,11 @@
-<?php //plugin Copy Categories
+<?php
+//plugin Copy Categories
 
 declare(strict_types=1);
 /** Plugin Copy Categories
  * https://github.com/torvista/Zen_Cart-Copy_Categories
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version torvista 2023 Jan 15
+ * @version torvista 2023 Mar 29
  */
 if (!defined('IS_ADMIN_FLAG') || IS_ADMIN_FLAG !== true) {
     die('Illegal Access');
@@ -33,9 +34,16 @@ class zcObserverPluginCopyCategories extends base
         );
     }
 
-//add a Copy Category icon
-//$zco_notifier->notify('NOTIFY_ADMIN_PROD_LISTING_ADD_ICON_CATEGORY', $category, $additional_icons);
-    public function notify_admin_prod_listing_add_icon_category(&$class, $eventID, $p1, &$p2)
+    /**
+     * @param $class
+     * @param $eventID
+     * @param $p1
+     * @param $p2
+     * @return void
+     * add a Copy Category icon
+     * $zco_notifier->notify('NOTIFY_ADMIN_PROD_LISTING_ADD_ICON_CATEGORY', $category, $additional_icons);
+     */
+    public function notify_admin_prod_listing_add_icon_category(&$class, $eventID, $p1, &$p2): void
     {
         global $cPath;
         $p2 = '<a href="' .
@@ -47,9 +55,16 @@ class zcObserverPluginCopyCategories extends base
             '" class="btn btn-sm btn-default btn-copy" role="button" title="' . ICON_COPY_TO . '"><strong>C</strong></a>';
     }
 
-//handle the copy-category and copy_category_confirm actions
-//$zco_notifier->notify('NOTIFY_ADMIN_PROD_LISTING_DEFAULT_ACTION', $action, $clearAction);
-    public function notify_admin_prod_listing_default_action(&$class, $eventID, $p1, &$p2)
+    /**
+     * @param $class
+     * @param $eventID
+     * @param $p1
+     * @param $p2
+     * @return void
+     * handle the copy-category and copy_category_confirm actions
+     * $zco_notifier->notify('NOTIFY_ADMIN_PROD_LISTING_DEFAULT_ACTION', $action, $clearAction);
+     */
+    public function notify_admin_prod_listing_default_action(&$class, $eventID, $p1, &$p2): void
     {
         global $cPath, $messageStack;
 
@@ -69,10 +84,8 @@ class zcObserverPluginCopyCategories extends base
 
             $products_in_categories = zen_get_categories_products_list($new_parent_id, true, false);
             if (count($products_in_categories) > 0) {
-                mv_printVar($products_in_categories);
                 foreach ($products_in_categories as $key => $value) {
-                    echo '$value='.$value.'<br>';
-                    $categories_with_products[] = strrpos($value, "_") === false ? $value : substr($value, strrpos($value, "_"));
+                    $categories_with_products[] = strrpos($value, '_') === false ? $value : substr($value, strrpos($value, '_'));
                 }
                 //should be only one value
                 $categories_with_products = array_unique($categories_with_products);
@@ -88,9 +101,17 @@ class zcObserverPluginCopyCategories extends base
         }
     }
 
-//handle the copy-category action to display the infobox
-//$zco_notifier->notify('NOTIFY_ADMIN_PROD_LISTING_DEFAULT_INFOBOX', $action, $heading, $contents);
-    public function notify_admin_prod_listing_default_infobox(&$class, $eventID, $p1, &$p2, &$p3)
+    /**
+     * @param $class
+     * @param $eventID
+     * @param $p1
+     * @param $p2
+     * @param $p3
+     * @return void
+     * handle the copy-category action to display the infobox
+     * $zco_notifier->notify('NOTIFY_ADMIN_PROD_LISTING_DEFAULT_INFOBOX', $action, $heading, $contents);
+     */
+    public function notify_admin_prod_listing_default_infobox(&$class, $eventID, $p1, &$p2, &$p3): void
     {
         global $cInfo, $cPath, $current_category_id, $languages;
         if (!empty($p2) && !empty($p3)) {
@@ -116,15 +137,14 @@ class zcObserverPluginCopyCategories extends base
                 //        )
                 $category_name_lang = zen_get_category_name($cInfo->categories_id, $language['id']);
                 $contents[] = [
-                    'text' => TEXT_COPY_CATEGORIES_NAME .
-                        (count($languages) > 1 ? ' (' . $language['directory'] . ')' : '') . '<br>' .
+                    'text' => (count($languages) > 1 ?  zen_image(DIR_WS_CATALOG_LANGUAGES . $language['directory'] . '/images/' . $language['image'], $language['name']) . ' ' : '') . TEXT_COPY_CATEGORIES_NAME . '<br>' .
                         zen_draw_input_field('copied_category_names[' . $language['id'] . ']', $category_name_lang, 'placeholder="' . $category_name_lang . '" size="31" maxlength="30" class=form-control')
                 ];
             }
             $contents[] = ['text' => '<label>' . zen_draw_checkbox_field('copy_metatags', 'yes', true) . ' ' . TEXT_COPY_CATEGORIES_METATAGS . '</label>'];
             $contents[] = ['text' => '<label>' . zen_draw_checkbox_field('enable_copied_categories', 'yes', true) . ' ' . TEXT_COPY_CATEGORIES_CATEGORY_ENABLED . '</label>'];
             $contents[] = [
-                'text' => '<b>' . TEXT_COPY_CATEGORIES_COPY_PRODUCTS . '</b>'
+                'text' => '<br><b>' . TEXT_COPY_CATEGORIES_COPY_PRODUCTS . '</b>'
                     . '<div class="radio"><label>' . zen_draw_radio_field('copy_products', 'copy_products_no', true) . TEXT_COPY_CATEGORIES_COPY_PRODUCTS_NO . '</label></div>'
                     . '<div class="radio"><label>' . zen_draw_radio_field('copy_products', 'copy_products_linked') . TEXT_COPY_CATEGORIES_COPY_PRODUCTS_LINKED . '</label></div>'
             ];
@@ -140,6 +160,11 @@ class zcObserverPluginCopyCategories extends base
         }
     }
 
+    /**
+     * @param $source_category_id
+     * @param $target_parent_id
+     * @return void
+     */
     private function _copy_categories_tree($source_category_id, $target_parent_id): void
     {
         global $db, $languages, $messageStack;
@@ -151,7 +176,6 @@ class zcObserverPluginCopyCategories extends base
         $sql = $db->bindVars($sql, ':target_parent_id:', $target_parent_id, 'integer');
         $sql = $db->bindVars($sql, ':source_category_id:', $source_category_id, 'integer');
         $sql = $db->bindVars($sql, ':categories_status:', (isset($_POST['enable_copied_categories']) && $_POST['enable_copied_categories'] === 'yes' ? 1 : 0), 'integer');
-        //echo '$sql=' . $sql . '<br>';die;
         $db->Execute($sql);
 
         //get the category_id of the new/target category
@@ -173,7 +197,6 @@ class zcObserverPluginCopyCategories extends base
             $sql = $db->bindVars($sql, ':target_category_id:', $target_category_id, 'integer');
             $sql = $db->bindVars($sql, ':source_category_id:', $source_category_id, 'integer');
             $sql = $db->bindVars($sql, ':language_id:', $language['id'], 'integer');
-            // echo '$sql=' . $sql . '<br>';die;
             $db->Execute($sql);
 
             if (isset($_POST['copy_metatags']) && $_POST['copy_metatags'] === 'yes') {
@@ -182,8 +205,6 @@ class zcObserverPluginCopyCategories extends base
                 FROM ' . TABLE_METATAGS_CATEGORIES_DESCRIPTION . ' WHERE categories_id = :source_category_id: AND language_id = :language_id:';
                 $sql = $db->bindVars($sql, ':target_category_id:', $target_category_id, 'integer');
                 $sql = $db->bindVars($sql, ':language_id:', $key, 'integer');
-                $sql = $db->bindVars($sql, ':source_category_id:', $source_category_id, 'integer');
-                // echo '$sql=' . $sql . '<br>';die;
                 $db->Execute($sql);
             }
         }
