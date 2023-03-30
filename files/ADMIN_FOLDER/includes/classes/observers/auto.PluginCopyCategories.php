@@ -194,17 +194,18 @@ class zcObserverPluginCopyCategories extends base
                   SELECT :target_category_id: AS categories_id, language_id, categories_name, categories_description
                   FROM ' . TABLE_CATEGORIES_DESCRIPTION . ' WHERE categories_id = :source_category_id: AND language_id = :language_id:';
             }
-            $sql = $db->bindVars($sql, ':target_category_id:', $target_category_id, 'integer');
-            $sql = $db->bindVars($sql, ':source_category_id:', $source_category_id, 'integer');
             $sql = $db->bindVars($sql, ':language_id:', $language['id'], 'integer');
+            $sql = $db->bindVars($sql, ':source_category_id:', $source_category_id, 'integer');
+            $sql = $db->bindVars($sql, ':target_category_id:', $target_category_id, 'integer');
             $db->Execute($sql);
 
             if (isset($_POST['copy_metatags']) && $_POST['copy_metatags'] === 'yes') {
                 $sql = 'INSERT INTO ' . TABLE_METATAGS_CATEGORIES_DESCRIPTION . ' (categories_id, language_id, metatags_title, metatags_keywords, metatags_description)
                   SELECT :target_category_id: AS categories_id, :language_id: AS language_id, metatags_title, metatags_keywords, metatags_description
                 FROM ' . TABLE_METATAGS_CATEGORIES_DESCRIPTION . ' WHERE categories_id = :source_category_id: AND language_id = :language_id:';
+                $sql = $db->bindVars($sql, ':language_id:', $language['id'], 'integer');
+                $sql = $db->bindVars($sql, ':source_category_id:', $source_category_id, 'integer');
                 $sql = $db->bindVars($sql, ':target_category_id:', $target_category_id, 'integer');
-                $sql = $db->bindVars($sql, ':language_id:', $key, 'integer');
                 $db->Execute($sql);
             }
         }
