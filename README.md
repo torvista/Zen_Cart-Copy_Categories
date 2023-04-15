@@ -6,11 +6,14 @@ See files/docs/Copy Categories readme.html
 
 ## Problems
 
-Please report the exact process of replicating any bugs/unexpected behaviour in GitHub: https://github.com/torvista/Zen_Cart-Copy_Categories/issues
+Please report in GitHub the exact process of replicating any bugs/unexpected behaviour:
+
+https://github.com/torvista/Zen_Cart-Copy_Categories/issues
 
 ### Changelog
 
-30/03/2023: bugfix - sql for metatags
+15/04/2023: infobox, new category name - replace hard-coded maxlength with table field size  
+30/03/2023: bugfix - sql for metatags  
 29/03/2023: added language flags and comments
 
 08/03/2023: v.2.0 torvista - rewritten to use observers.

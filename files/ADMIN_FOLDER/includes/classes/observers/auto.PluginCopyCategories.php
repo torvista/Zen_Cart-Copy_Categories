@@ -138,7 +138,7 @@ class zcObserverPluginCopyCategories extends base
                 $category_name_lang = zen_get_category_name($cInfo->categories_id, $language['id']);
                 $contents[] = [
                     'text' => (count($languages) > 1 ?  zen_image(DIR_WS_CATALOG_LANGUAGES . $language['directory'] . '/images/' . $language['image'], $language['name']) . ' ' : '') . TEXT_COPY_CATEGORIES_NAME . '<br>' .
-                        zen_draw_input_field('copied_category_names[' . $language['id'] . ']', $category_name_lang, 'placeholder="' . $category_name_lang . '" size="31" maxlength="30" class=form-control')
+                        zen_draw_input_field('copied_category_names[' . $language['id'] . ']', $category_name_lang, 'placeholder="' . $category_name_lang . '" ' . zen_set_field_length(TABLE_CATEGORIES_DESCRIPTION, 'categories_name') . ' class=form-control')
                 ];
             }
             $contents[] = ['text' => '<label>' . zen_draw_checkbox_field('copy_metatags', 'yes', true) . ' ' . TEXT_COPY_CATEGORIES_METATAGS . '</label>'];
