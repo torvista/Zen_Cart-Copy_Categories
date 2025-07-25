@@ -1,5 +1,8 @@
 # Zen Cart - Copy Categories
 
+2025: Note I have a semi-updated WIP version on my local site, not replicated here.  
+If you are interested in this plugin, open an issue to remind me to finish it off.
+
 For Zen Cart 1.58/php 8.0+
 
 See files/docs/Copy Categories readme.html
