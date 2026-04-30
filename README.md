@@ -1,9 +1,6 @@
-# Zen Cart - Copy Categories
+# Zen Cart - Copy Categories v2.2
 
-2025: Note I have a semi-updated WIP version on my local site, not replicated here.  
-If you are interested in this plugin, open an issue to remind me to finish it off.
-
-For Zen Cart 1.58/php 8.0+
+Used with Zen Cart 2.2.0 (and 3), php 8+
 
 See files/docs/Copy Categories readme.html
 
@@ -15,6 +12,7 @@ https://github.com/torvista/Zen_Cart-Copy_Categories/issues
 
 ### Changelog
 
+30/04/2026: previous major rework merged, use lang. files  
 15/04/2023: infobox, new category name - replace hard-coded maxlength with table field size  
 30/03/2023: bugfix - sql for metatags  
 29/03/2023: added language flags and comments
