@@ -5,7 +5,7 @@ declare(strict_types=1);
 /** Plugin Copy Categories
  * https://github.com/torvista/Zen_Cart-Copy_Categories
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version auto.PluginCopyCategories 30 Apr 2026 torvista
+ * @version auto.CopyCategories 30 Apr 2026 torvista
  */
 if (!defined('IS_ADMIN_FLAG') || IS_ADMIN_FLAG !== true) {
     die('Illegal Access');
@@ -14,11 +14,12 @@ if (!defined('IS_ADMIN_FLAG') || IS_ADMIN_FLAG !== true) {
 /**
  * This observer class adds a Copy Category (and contained products) functionality to the admin category-product listing page.
  */
-class zcObserverPluginCopyCategories extends base
+class zcObserverCopyCategories extends base
 {
     // debug logging
     private bool $debug = false;
-    private string $logfile = DIR_FS_LOGS . '/debug_PluginCopyCategories.log';
+    private string $logfile = DIR_FS_LOGS . '/debug_CopyCategories.log';
+
     public function __construct()
     {
         // Initialise logfile
@@ -29,11 +30,6 @@ class zcObserverPluginCopyCategories extends base
         //        if ($this->debug) {
         //            error_log(PHP_EOL . __LINE__ .  ': fn ' . __FUNCTION__ . PHP_EOL, 3, $this->logfile);
         //        }
-
-        // Load the language definition file
-        global $languageLoader;
-        $filename = 'plugin_copy_categories.php';
-        $languageLoader->loadExtraLanguageFiles(DIR_WS_LANGUAGES, $_SESSION['language'], $filename);
 
         $this->attach($this, [
                 'NOTIFY_ADMIN_PROD_LISTING_ADD_ICON_CATEGORY', // add the additional Copy Category icon after the action M Move Category on the Category Listing
@@ -81,7 +77,7 @@ class zcObserverPluginCopyCategories extends base
     {
         global $cPath, $messageStack;
         if ($this->debug) {
-            error_log(PHP_EOL . __LINE__ .  ': fn ' . __FUNCTION__ . ', $action="' . $action . '", $clearAction="' . $clearAction . '"' . PHP_EOL, 3, $this->logfile);
+            error_log(PHP_EOL . __LINE__ . ': fn ' . __FUNCTION__ . ', $action="' . $action . '", $clearAction="' . $clearAction . '"' . PHP_EOL, 3, $this->logfile);
         }
 
         // Display of Infobox options
@@ -90,7 +86,7 @@ class zcObserverPluginCopyCategories extends base
             $_POST['copy_category'] = 'copy_category';
             $clearAction = false;
             if ($this->debug) {
-                error_log(__LINE__ .  ': $action="' . $action . '", $clearAction=false' . PHP_EOL, 3, $this->logfile);
+                error_log(__LINE__ . ': $action="' . $action . '", $clearAction=false' . PHP_EOL, 3, $this->logfile);
             }
             return;
         }
@@ -103,11 +99,11 @@ class zcObserverPluginCopyCategories extends base
             $categories_with_products = [];
 
             // Get products in the TARGET category: there should be none
-            $products_in_categories = zen_get_categories_products_list($new_parent_id, include_deactivated:true, include_child:false);
+            $products_in_categories = zen_get_categories_products_list($new_parent_id, include_deactivated: true, include_child: false);
             // e.g.: [product] => category
             //    [9393] => 6861
             if ($this->debug) {
-                error_log(__LINE__ .  ': products in TARGET category #' . $new_parent_id . "\n" . print_r($products_in_categories, true) . PHP_EOL, 3, $this->logfile);
+                error_log(__LINE__ . ': products in TARGET category #' . $new_parent_id . "\n" . print_r($products_in_categories, true) . PHP_EOL, 3, $this->logfile);
             }
             if (count($products_in_categories) > 0) {
                 foreach ($products_in_categories as $value) {
@@ -148,8 +144,8 @@ class zcObserverPluginCopyCategories extends base
         }
         if ($action === 'copy_category') {
             if ($this->debug) {
-                 error_log(PHP_EOL . __LINE__ .  ': fn ' . __FUNCTION__ . PHP_EOL, 3, $this->logfile);
-               }
+                error_log(PHP_EOL . __LINE__ . ': fn ' . __FUNCTION__ . PHP_EOL, 3, $this->logfile);
+            }
             $heading[] = ['text' => '<b>' . sprintf(TEXT_COPY_CATEGORIES_INFO_HEADING, $cInfo->categories_name, $cInfo->categories_id) . '</b>'];
             $contents = [
                 'form' => zen_draw_form('categories', FILENAME_CATEGORY_PRODUCT_LISTING, 'action=copy_category_confirm&cPath=' . $cPath, 'post', 'class="form-horizontal"') .
@@ -159,31 +155,21 @@ class zcObserverPluginCopyCategories extends base
             $contents[] = ['text' => TEXT_COPY_CATEGORIES_INTRO];
 
             foreach ($languages as $language) {
-                //[0] => Array
-                //        (
-                //            [id] => 1
-                //            [name] => English
-                //            [code] => en
-                //            [image] => icon.gif
-                //            [directory] => english
-                //        )
                 $category_name_lang = zen_get_category_name($cInfo->categories_id, $language['id']);
                 $contents[] = [
-                    'text' => (count($languages) > 1 ?  zen_image(DIR_WS_CATALOG_LANGUAGES . $language['directory'] . '/images/' . $language['image'], $language['name']) . ' ' : '') . TEXT_COPY_CATEGORIES_NAME . '<br>' .
-                        zen_draw_input_field('copied_category_names[' . $language['id'] . ']', $category_name_lang, 'placeholder="' . $category_name_lang . '" ' . zen_set_field_length(TABLE_CATEGORIES_DESCRIPTION, 'categories_name') . ' class=form-control')
+                    'text' => (count($languages) > 1 ? zen_image(DIR_WS_CATALOG_LANGUAGES . $language['directory'] . '/images/' . $language['image'], $language['name']) . ' ' : '') . TEXT_COPY_CATEGORIES_NAME . '<br>' .
+                        zen_draw_input_field('copied_category_names[' . $language['id'] . ']', $category_name_lang, 'id="copied_category_names[' . $language['id'] . ']" placeholder="' . $category_name_lang . '" ' . zen_set_field_length(TABLE_CATEGORIES_DESCRIPTION, 'categories_name') . ' class=form-control')
                 ];
             }
             $contents[] = ['text' => '<label>' . zen_draw_checkbox_field('copy_metatags', 'yes', true) . ' ' . TEXT_COPY_CATEGORIES_METATAGS . '</label>'];
             $contents[] = ['text' => '<label>' . zen_draw_checkbox_field('enable_copied_categories', 'yes', true) . ' ' . TEXT_COPY_CATEGORIES_CATEGORY_ENABLED . '</label>'];
-            $contents[] = [
-                'text' => '<br><b>' . TEXT_COPY_CATEGORIES_COPY_PRODUCTS . '</b>'
+            $contents[] = ['text' => '<br><b>' . TEXT_COPY_CATEGORIES_COPY_PRODUCTS . '</b>'
                     . '<div class="radio"><label>' . zen_draw_radio_field('copy_products', 'copy_products_no', true) . TEXT_COPY_CATEGORIES_COPY_PRODUCTS_NO . '</label></div>'
                     . '<div class="radio"><label>' . zen_draw_radio_field('copy_products', 'copy_products_linked') . TEXT_COPY_CATEGORIES_COPY_PRODUCTS_LINKED . '</label></div>'
-                    . '<div class="radio"><label>' . zen_draw_radio_field('copy_products', 'copy_products_duplicated') . '<strong>DO NOT USE!</strong><br>' .  TEXT_COPY_CATEGORIES_COPY_PRODUCTS_DUPLICATED . '</label></div>'
+                    // TODO maybe, Copy as Duplicates
+                //. '<div class="radio"><label>' . zen_draw_radio_field('copy_products', 'copy_products_duplicated') . '<strong>DO NOT USE!</strong><br>' . TEXT_COPY_CATEGORIES_COPY_PRODUCTS_DUPLICATED . '</label></div>'
             ];
-            $contents[] = ['text' => sprintf(TEXT_COPY_CATEGORIES, $cInfo->categories_name, $cInfo->categories_id)];
-
-            $contents[] = ['text' => zen_draw_pull_down_menu('copy_to_category_id', zen_get_category_tree(), $current_category_id, 'class="form-control"')];
+            $contents[] = ['text' => TEXT_INFO_HEADING_COPY_TO . ':<br>' . zen_draw_pull_down_menu('copy_to_category_id', zen_get_category_tree(), $current_category_id, 'class="form-control"')];
             $contents[] = [
                 'align' => 'center',
                 'text' => '<button type="submit" class="btn btn-primary">' . IMAGE_COPY . '</button> <a href="' . zen_href_link(FILENAME_CATEGORY_PRODUCT_LISTING, 'cPath=' . $cPath . '&cID=' . $cInfo->categories_id) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>'
@@ -200,7 +186,7 @@ class zcObserverPluginCopyCategories extends base
     {
         global $db, $languages, $messageStack;
         if ($this->debug) {
-            error_log(PHP_EOL . __LINE__ .  ': fn ' . __FUNCTION__ . PHP_EOL, 3, $this->logfile);
+            error_log(PHP_EOL . __LINE__ . ': fn ' . __FUNCTION__ . PHP_EOL, 3, $this->logfile);
         }
 
         // Create the new parent category
@@ -223,16 +209,15 @@ class zcObserverPluginCopyCategories extends base
                   FROM ' . TABLE_CATEGORIES_DESCRIPTION . ' WHERE categories_id = :source_category_id: AND language_id = :language_id:';
                 $sql = $db->bindVars($sql, ':category_name:', $_POST['copied_category_names'][$language['id']], 'string');
                 if ($this->debug) {
-                    error_log(__LINE__ .  ': Initial Pass' . PHP_EOL, 3, $this->logfile);
+                    error_log(__LINE__ . ': Initial Pass' . PHP_EOL, 3, $this->logfile);
                 }
-
-        // >1: On the subsequent/recursive/subcategory passes, the category name comes from the copied categories/source language loo
+                // >1: On the subsequent/recursive/subcategory passes, the category name comes from the copied categories/source language loo
             } else {
                 $sql = 'INSERT INTO ' . TABLE_CATEGORIES_DESCRIPTION . ' (categories_id, language_id, categories_name, categories_description)
                   SELECT :target_category_id: AS categories_id, language_id, categories_name, categories_description
                   FROM ' . TABLE_CATEGORIES_DESCRIPTION . ' WHERE categories_id = :source_category_id: AND language_id = :language_id:';
                 if ($this->debug) {
-                    error_log(__LINE__ .  ': Subsequent Pass' . PHP_EOL, 3, $this->logfile);
+                    error_log(__LINE__ . ': Subsequent Pass' . PHP_EOL, 3, $this->logfile);
                 }
             }
             $sql = $db->bindVars($sql, ':language_id:', $language['id'], 'integer');
@@ -240,7 +225,7 @@ class zcObserverPluginCopyCategories extends base
             $sql = $db->bindVars($sql, ':target_category_id:', $target_category_id, 'integer');
             $db->Execute($sql);
             if ($this->debug) {
-                error_log(__LINE__ .  ': $sql="' . $sql .'"' . PHP_EOL, 3, $this->logfile);
+                error_log(__LINE__ . ': $sql="' . $sql . '"' . PHP_EOL, 3, $this->logfile);
             }
 
             // Optionally copy the category metatags
@@ -253,7 +238,7 @@ class zcObserverPluginCopyCategories extends base
                 $sql = $db->bindVars($sql, ':target_category_id:', $target_category_id, 'integer');
                 $db->Execute($sql);
                 if ($this->debug) {
-                    error_log(__LINE__ .  ': metatags copied, $sql="' . $sql .'"' . PHP_EOL, 3, $this->logfile);
+                    error_log(__LINE__ . ': metatags copied, $sql="' . $sql . '"' . PHP_EOL, 3, $this->logfile);
                 }
             }
         }
@@ -266,7 +251,7 @@ class zcObserverPluginCopyCategories extends base
             // e.g.: [product] => category
             //    [9393] => 6861
             if ($this->debug) {
-                error_log(__LINE__ .  ': products to copy from #' . $source_category_id . "\n" . print_r($products_to_copy, true) . PHP_EOL, 3, $this->logfile);
+                error_log(__LINE__ . ': products to copy from #' . $source_category_id . "\n" . print_r($products_to_copy, true) . PHP_EOL, 3, $this->logfile);
             }
 
             // The previous function creates $GLOBALS['categories_products_id_list'].
@@ -275,7 +260,7 @@ class zcObserverPluginCopyCategories extends base
 
             if ($_POST['copy_products'] === 'copy_products_linked') {
                 if ($this->debug) {
-                    error_log(__LINE__ .  ': copy products as LINKED' . PHP_EOL, 3, $this->logfile);
+                    error_log(__LINE__ . ': copy products as LINKED' . PHP_EOL, 3, $this->logfile);
                 }
                 foreach ($products_to_copy as $key => $source_category) {
                     zen_link_product_to_category($key, $target_category_id);
@@ -296,8 +281,7 @@ class zcObserverPluginCopyCategories extends base
             }
 
             // TODO copy as Duplicated
-            if ($_POST['copy_products'] === 'copy_products_duplicated')
-            {
+            if ($_POST['copy_products'] === 'copy_products_duplicated') {
                 foreach ($products_to_copy as $key => $source_category) {
                     $_POST['copy_as'] = 'duplicate';
                     $id = $key;
@@ -311,7 +295,9 @@ class zcObserverPluginCopyCategories extends base
                     // new product creation is handled by the following module, creating $dup_products_id (copy_attributes, copy_metatags, copy_linked_categories, copy_discounts also handled here)
                     // Why is this variable not already existing???
                     // If this is not existing here, an error is caused when it is referenced in copy_product_confirm.php
-                    if (!isset($zco_notifier)) $zco_notifier = new notifier();
+                    if (!isset($zco_notifier)) {
+                        $zco_notifier = new notifier();
+                    }
 
                     require zen_get_admin_module_from_directory($product_type, 'copy_product_confirm.php');
                     //get confirmation messages
@@ -357,7 +343,7 @@ class zcObserverPluginCopyCategories extends base
                 return;
             }
         }
-            //should never get here
-           error_log(__LINE__ .  ': fn ' . __FUNCTION__ . ', unhandled $_POST' . "\n" . print_r($_POST, true) . PHP_EOL, 3, $this->logfile);
-   }
+        //should never get here
+        error_log(__LINE__ . ': fn ' . __FUNCTION__ . ', unhandled $_POST' . "\n" . print_r($_POST, true) . PHP_EOL, 3, $this->logfile);
+    }
 }

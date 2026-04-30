@@ -6,18 +6,17 @@ declare(strict_types=1);
  * Plugin Copy Categories
  * https://github.com/torvista/Zen_Cart-Copy_Categories
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version torvista 2022 Nov 29
+ * @version 30 Apr 2026 torvista
  */
 
 $define = [
-    'TEXT_COPY_CATEGORIES' => 'Copy Category: "<strong>%1$s</strong>" (#%2$u) to:',
     'TEXT_COPY_CATEGORIES_CATEGORY_ENABLED' => 'Enable the copied category/categories?',
     'TEXT_COPY_CATEGORIES_COPY_PRODUCTS' => 'Copy products too?',
     'TEXT_COPY_CATEGORIES_COPY_PRODUCTS_LINKED' => 'Copy products as <strong>linked</strong>',
     'TEXT_COPY_CATEGORIES_COPY_PRODUCTS_DUPLICATED' => 'Copy products as <strong>duplicates</strong> (new products with the same name)',
     'TEXT_COPY_CATEGORIES_COPY_PRODUCTS_NO' => 'Do <strong>not</strong> copy products, only the category structure.',
     'TEXT_COPY_CATEGORIES_INFO_HEADING' => 'Copy category "%1$s" (#%2$u)',
-    'TEXT_COPY_CATEGORIES_INTRO' => 'Duplicate this category and it\'s subcategories in another parent category.',
+    'TEXT_COPY_CATEGORIES_INTRO' => 'Duplicate this category and it\'s subcategories.',
     'TEXT_COPY_CATEGORIES_METATAGS' => 'Copy category metatags',
     'TEXT_COPY_CATEGORIES_NAME' => 'New category name',
     'TEXT_COPY_CATEGORIES_PRODUCTS_IN_TARGET' => 'ERROR: Copy Category aborted, target category "%1$s" (#%2$u) contains product(s).',
